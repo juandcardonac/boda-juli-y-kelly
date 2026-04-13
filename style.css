@@ -388,25 +388,25 @@ body {
     padding: 0 10px;
 }
 
-/* --- AJUSTE PARA EL RECUADRO ROJO EXACTO --- */
+/* --- AJUSTE PARA EL RECUADRO ROJO EXACTO Y NOMBRES PADRINOS --- */
 #hero-padrinos {
-    padding-top: 8vh; /* Alineado igual que la portada normal */
-    justify-content: flex-start; /* Construimos de arriba hacia abajo */
+    padding-top: 8vh; 
+    justify-content: flex-start; 
 }
 
 #hero-padrinos .couple-names-hero {
-    margin-bottom: 2vh !important; /* Espacio entre el título y el primer texto */
+    margin-bottom: 1vh !important; /* Lo juntamos un poquito para darle espacio a los nombres de los padrinos */
 }
 
 #hero-padrinos .padrinos-text-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly; /* Distribuye los 4 párrafos de forma perfecta */
-    height: 48vh; /* Ocupa exactamente el 48% de la pantalla (tu recuadro rojo) */
-    margin-bottom: auto; /* Manda la flecha de "desliza" para abajo lejos del anillo */
+    justify-content: space-evenly; 
+    height: 40vh; /* Reducimos de 48 a 40 para compensar el espacio que ahora ocupan los nombres */
+    margin-bottom: auto; 
 }
 
 #hero-padrinos .padrinos-text-container p {
-    margin: 0; /* Quitamos los márgenes fijos para que el 'space-evenly' haga el trabajo limpio */
+    margin: 0; 
     font-weight: 500;
 }
