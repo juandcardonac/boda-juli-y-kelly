@@ -1,10 +1,17 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. OBTENER NOMBRE DEL INVITADO
     const params = new URLSearchParams(window.location.search);
-    const nombreInvitado = params.get('invitado'); 
-    
-    if (nombreInvitado) {
+
+    // 1. Lógica del Nombre del Invitado
+    const nombreInvitado = params.get('invitado');
+    if (nombreInvitado && document.getElementById('nombre-invitado')) {
         document.getElementById('nombre-invitado').innerText = nombreInvitado;
+    }
+
+    // 2. Lógica de la vista de Padrinos
+    const tipo = params.get('tipo');
+    if (tipo === 'padrino' || tipo === 'padrinos') {
+        document.getElementById('hero-normal').style.display = 'none';
+        document.getElementById('hero-padrinos').style.display = 'flex';
     }
 
     // Intento de Autoplay al cargar la página
@@ -20,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const swiper = new Swiper(".mySwiper", {
             loop: true,               
             centeredSlides: true,     
-            slidesPerView: 3,         
+            slidesPerView: 'auto',         
             spaceBetween: 10,         
             autoplay: {
                 delay: 5000,          
