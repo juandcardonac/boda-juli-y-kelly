@@ -382,24 +382,31 @@ body {
 /* --- ESTILOS VISTA PADRINOS --- */
 .padrinos-text-container {
     color: white;
-    font-size: 1.15rem;
-    line-height: 1.6;
+    font-size: 1.05rem; 
+    line-height: 1.4; 
     text-shadow: 0 2px 5px rgba(0,0,0,0.8);
     padding: 0 10px;
-    margin-bottom: 20px;
 }
 
-.padrinos-text-container p {
-    margin-bottom: 25px;
-    font-weight: 500;
-}
-
-/* --- AJUSTE PARA SUBIR EL TEXTO DE LOS PADRINOS Y LIBERAR EL ANILLO --- */
+/* --- AJUSTE PARA EL RECUADRO ROJO EXACTO --- */
 #hero-padrinos {
-    justify-content: flex-start; /* Quita el centrado automático para poder controlarlo nosotros */
+    padding-top: 8vh; /* Alineado igual que la portada normal */
+    justify-content: flex-start; /* Construimos de arriba hacia abajo */
+}
+
+#hero-padrinos .couple-names-hero {
+    margin-bottom: 2vh !important; /* Espacio entre el título y el primer texto */
 }
 
 #hero-padrinos .padrinos-text-container {
-    margin-top: 4vh; /* Le da un respiro debajo del título "Julian & Kelly" */
-    margin-bottom: auto; /* Esta es la magia: empuja todo el espacio vacío hacia abajo, dejando libre la foto */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly; /* Distribuye los 4 párrafos de forma perfecta */
+    height: 48vh; /* Ocupa exactamente el 48% de la pantalla (tu recuadro rojo) */
+    margin-bottom: auto; /* Manda la flecha de "desliza" para abajo lejos del anillo */
+}
+
+#hero-padrinos .padrinos-text-container p {
+    margin: 0; /* Quitamos los márgenes fijos para que el 'space-evenly' haga el trabajo limpio */
+    font-weight: 500;
 }
