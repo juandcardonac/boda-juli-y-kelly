@@ -393,3 +393,13 @@ body {
     margin-bottom: 25px;
     font-weight: 500;
 }
+
+/* --- AJUSTE PARA SUBIR EL TEXTO DE LOS PADRINOS Y LIBERAR EL ANILLO --- */
+#hero-padrinos {
+    justify-content: flex-start; /* Quita el centrado automático para poder controlarlo nosotros */
+}
+
+#hero-padrinos .padrinos-text-container {
+    margin-top: 4vh; /* Le da un respiro debajo del título "Julian & Kelly" */
+    margin-bottom: auto; /* Esta es la magia: empuja todo el espacio vacío hacia abajo, dejando libre la foto */
+}
