@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // 2. CONFIGURACIÓN DEL CONTADOR
-const fechaBoda = new Date(2026, 9, 30, 16, 0, 0).getTime(); 
+const fechaBoda = new Date(2026, 9, 30, 17, 0, 0).getTime(); 
 
 const timer = setInterval(function() {
     const ahora = new Date().getTime();
