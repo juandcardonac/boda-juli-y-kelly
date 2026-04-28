@@ -274,8 +274,8 @@ body {
     pointer-events: none;
     line-height: 0;
 }
-.wave-top    { top: -39px; height: 40px; }
-.wave-bottom { bottom: -59px; height: 60px; }
+.wave-top    { top: -39px; height: 40px; z-index: 1; }
+.wave-bottom { bottom: -59px; height: 60px; z-index: 1; }
 .wave svg    { display: block; width: 100%; height: 100%; }
 .wave-top svg path    { fill: var(--cream); }
 .wave-bottom svg path { fill: var(--cream); }
@@ -317,9 +317,10 @@ body {
 
 /* ─── COUNTDOWN ─── */
 .countdown-section {
-    position: relative; z-index: 5;
+    position: relative; z-index: 2;
     display: flex; justify-content: center;
     padding: 10px 0 0;
+    margin-top: -50px;
 }
 .orbit-wrap {
     position: relative;
@@ -336,9 +337,10 @@ body {
     z-index: 5;
 }
 .orbit-svg {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 40%, black 41%, black 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, transparent 40%, black 41%, black 100%);
+    position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+    /* NUEVA MÁSCARA AJUSTADA PARA ELIMINAR LOS HUECOS EN LOS LADOS */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 31%, black 45%);
+    mask-image: linear-gradient(to bottom, transparent 40%, black 45%);
 }
 
 .heart-mover {
@@ -432,7 +434,7 @@ body {
 .cards {
     padding: 0 18px;
     position: relative; z-index: 5;
-    margin-top: 190px;
+    margin-top: 210px;
     display: flex;
     flex-direction: column;
     gap: 26px;
@@ -938,7 +940,7 @@ body {
                 <div class="orbit-wrap">
                     <div class="orbit-tilt">
                         <svg class="orbit-svg" viewBox="-180 -180 360 360" preserveAspectRatio="none" fill="none">
-                            <ellipse cx="0" cy="0" rx="175" ry="80"
+                            <ellipse cx="0" cy="0" rx="155" ry="78"
                                      stroke="rgba(223,163,42,0.55)" stroke-width="2" stroke-dasharray="8,7"/>
                         </svg>
                         <div class="heart-mover"><i class="fas fa-heart"></i></div>
@@ -1257,7 +1259,7 @@ new Swiper('.mySwiper', {
 /* ── HEART ORBIT (time-based, matches original 10s CSS animation) ── */
 (function orbitHeart() {
     const heart = document.querySelector('.heart-mover');
-    const RX = 175, RY = 80;   // must match SVG path radii
+    const RX = 155, RY = 78;   // must match SVG path radii
     const PERIOD = 10000;       // ms per full revolution (same as original CSS)
 
     function frame(ts) {
@@ -1265,7 +1267,7 @@ new Swiper('.mySwiper', {
         const x = RX * Math.cos(angle);
         const y = RY * Math.sin(angle);
         // Behind the planet = top arc (y negative) → hide
-        heart.style.opacity   = y < -10 ? '0' : '1';
+        heart.style.opacity   = y < -12 ? '0' : '1';
         heart.style.transform = `translate(${x}px, ${y}px)`;
         requestAnimationFrame(frame);
     }
