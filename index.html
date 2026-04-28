@@ -3,247 +3,1286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda de Julian y Kelly</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,800&display=swap" rel="stylesheet">
+    <title>Boda de Julian & Kelly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
-    <link rel="stylesheet" href="style.css">
+    <style>
+/* ─── VARIABLES ─── */
+:root {
+    --gold:        #DFA32A;
+    --gold-light:  #F0C050;
+    --gold-dark:   #B8841A;
+    --gold-glow:   rgba(223,163,42,0.35);
+    --cream:       #FDFAF4;
+    --card-bg:     #FFFFFF;
+    --text-dark:   #3A3228;
+    --text-mid:    #6B5E4E;
+    --text-light:  #A0927E;
+    --bg-deep:     #0F0C18;
+    --font-title:  'Playfair Display', serif;
+    --font-body:   'Montserrat', sans-serif;
+    --radius-card: 28px;
+    --shadow-card: 0 12px 40px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-deep);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* ─── CONTAINER ─── */
+.app {
+    width: 100%;
+    max-width: 430px;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
+
+/* ─── FIXED BG ─── */
+.bg-layer {
+    position: absolute; inset: 0;
+    background-image: url('fondo-viaje.jpg');
+    background-size: cover;
+    background-position: center top;
+    z-index: 1;
+    transition: filter 0.6s;
+}
+.bg-layer::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(10,6,20,0.28) 0%,
+        rgba(10,6,20,0.12) 40%,
+        rgba(10,6,20,0.55) 100%
+    );
+}
+
+/* ─── SCROLL CONTAINER ─── */
+.scroll-wrap {
+    position: absolute; inset: 0;
+    z-index: 3;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.scroll-wrap::-webkit-scrollbar { display: none; }
+
+/* ─── FLOATING PETALS ─── */
+.petals-canvas {
+    position: absolute; inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+.petal {
+    position: absolute;
+    top: -40px;
+    font-size: 1rem;
+    opacity: 0;
+    animation: petalFall linear infinite;
+    color: var(--gold-light);
+    filter: drop-shadow(0 0 4px var(--gold-glow));
+}
+@keyframes petalFall {
+    0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+    5%   { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(110vh) rotate(720deg) translateX(40px); opacity: 0; }
+}
+
+/* ─── HERO ─── */
+.hero {
+    min-height: 100vh;
+    padding: 9vh 24px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.55);
+}
+
+.hero-monogram {
+    font-family: var(--font-title);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 6px;
+    animation: fadeUp 1s ease both;
+}
+
+.hero-names {
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 10vw, 3.8rem);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    animation: fadeUp 1s 0.15s ease both;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 40px var(--gold-glow);
+}
+
+.hero-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0 10px;
+    animation: fadeUp 1s 0.3s ease both;
+}
+.hero-divider::before,
+.hero-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(223,163,42,0.7), transparent);
+}
+.hero-divider i { color: var(--gold); font-size: 0.9rem; }
+
+.hero-sub {
+    font-family: var(--font-title);
+    font-size: 1.55rem;
+    font-style: italic;
+    font-weight: 400;
+    color: white;
+    animation: fadeUp 1s 0.35s ease both;
+}
+
+.hero-tagline {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    margin-top: 6px;
+    animation: fadeUp 1s 0.45s ease both;
+}
+
+.hero-top { display: flex; flex-direction: column; align-items: center; }
+
+/* ─── WELCOME BOX ─── */
+.welcome-box {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 22px;
+    padding: 14px 26px 22px;
+    color: white;
+    line-height: 1.55;
+    animation: fadeUp 1s 0.55s ease both;
+    width: 100%;
+}
+.welcome-box p { font-size: 0.9rem; opacity: 0.88; }
+.welcome-box .guest-name {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--gold-light);
+    font-style: italic;
+    margin: 0 0 10px;
+    display: block;
+    text-shadow: 0 0 20px var(--gold-glow);
+}
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.75);
+    animation: fadeUp 1s 0.7s ease both;
+}
+.scroll-hint p { font-size: 0.78rem; font-style: italic; letter-spacing: 0.04em; }
+.scroll-hint i { font-size: 1.3rem; animation: bounce 2s ease-in-out infinite; }
+
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── PADRINOS HERO ─── */
+.hero-padrinos {
+    min-height: 100vh;
+    padding: 8vh 24px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+    display: none;
+}
+.hero-padrinos.active { display: flex; }
+
+.padrinos-names {
+    font-family: var(--font-title);
+    font-size: 1.9rem;
+    color: var(--gold);
+    line-height: 1.25;
+    margin: 12px 0 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 0 30px var(--gold-glow);
+}
+
+.padrinos-msgs {
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+    justify-content: center;
+}
+.padrinos-msgs p {
+    color: white;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+}
+
+/* ─── WAVE ZONE ─── */
+.white-zone {
+    position: relative;
+    background: var(--cream);
+    color: var(--text-dark);
+    padding-top: 10px;
+    padding-bottom: 0;
+    height: 240px; /* Restauramos la altura fija */
+    display: block;
+}
+
+.wave {
+    position: absolute;
+    left: 0; width: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    line-height: 0;
+}
+.wave-top    { top: -39px; height: 40px; }
+.wave-bottom { bottom: -59px; height: 60px; }
+.wave svg    { display: block; width: 100%; height: 100%; }
+.wave-top svg path    { fill: var(--cream); }
+.wave-bottom svg path { fill: var(--cream); }
+
+/* ─── CLOUDS ─── */
+.clouds {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 6;
+    overflow: visible;
+}
+.cloud-svg {
+    position: absolute;
+    filter: drop-shadow(0 6px 16px rgba(255,255,255,0.4));
+}
+.cloud-svg-l {
+    top: -75px; left: -30px;
+    width: 200px;
+    animation: cloudFloatL 7s ease-in-out infinite;
+}
+.cloud-svg-r {
+    top: -60px; right: -30px;
+    width: 220px;
+    animation: cloudFloatR 8s ease-in-out infinite;
+}
+@keyframes cloudFloatL {
+    0%   { transform: translate(0,0)        scale(1);    }
+    25%  { transform: translate(8px,-12px)  scale(1.04); }
+    50%  { transform: translate(14px,-7px)  scale(1.02); }
+    75%  { transform: translate(5px,-16px)  scale(1.05); }
+    100% { transform: translate(0,0)        scale(1);    }
+}
+@keyframes cloudFloatR {
+    0%   { transform: translate(0,0)         scale(1);    }
+    30%  { transform: translate(-10px,-9px)  scale(1.04); }
+    60%  { transform: translate(-6px,-15px)  scale(1.03); }
+    85%  { transform: translate(-12px,-6px)  scale(1.05); }
+    100% { transform: translate(0,0)         scale(1);    }
+}
+
+/* ─── COUNTDOWN ─── */
+.countdown-section {
+    position: relative; z-index: 5;
+    display: flex; justify-content: center;
+    padding: 10px 0 0;
+}
+.orbit-wrap {
+    position: relative;
+    width: 360px; height: 360px;
+    display: flex; justify-content: center; align-items: center;
+    perspective: 1000px;
+}
+
+.orbit-tilt {
+    position: absolute;
+    width: 100%; height: 100%;
+    transform: rotateX(25deg) rotateZ(-10deg) translateY(25px);
+    transform-style: preserve-3d;
+    z-index: 5;
+}
+.orbit-svg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 40%, black 41%, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, transparent 40%, black 41%, black 100%);
+}
+
+.heart-mover {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 30px; height: 30px;
+    margin: -15px 0 0 -15px;
+    z-index: 5;
+    font-size: 1.7rem;
+    color: #e05c6a;
+    display: flex; justify-content: center; align-items: center;
+    filter: drop-shadow(0 0 10px rgba(224,92,106,0.7));
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* ─── PLANET ─── */
+.planet {
+    position: relative;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 0 6px rgba(223,163,42,0.1), 0 16px 40px rgba(223,163,42,0.18);
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden;
+    z-index: 1;
+}
+.world-map {
+    position: absolute;
+    width: 120%; height: 120%;
+    top: -10%; left: -10%;
+    background: #c8bfb0;
+    opacity: 0.45;
+    -webkit-mask-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg');
+    mask-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg');
+    -webkit-mask-size: cover; mask-size: cover;
+    -webkit-mask-position: 25% 50%; mask-position: 25% 50%;
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.countdown-inner {
+    position: absolute; inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.countdown-inner h3 {
+    position: absolute;
+    top: 26px; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--font-title);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--gold-dark);
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+.timer {
+    display: flex;
+    gap: 4px;
+    align-items: baseline;
+    justify-content: center;
+}
+.t-box span {
+    font-family: var(--font-title);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    display: block;
+    line-height: 1;
+}
+.t-box p {
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+.t-sep {
+    font-family: var(--font-title);
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    position: relative; top: -3px;
+}
+
+/* ─── CARDS CONTAINER ─── */
+.cards {
+    padding: 0 18px;
+    position: relative; z-index: 5;
+    margin-top: 190px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+/* ─── BASE CARD ─── */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: 32px 22px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid rgba(223,163,42,0.1);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.3s;
+}
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.card:hover {
+    box-shadow: 0 16px 50px rgba(0,0,0,0.16), 0 0 0 1px rgba(223,163,42,0.18);
+}
+
+.card-icon-wrap {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, rgba(223,163,42,0.12), rgba(223,163,42,0.05));
+    border-radius: 18px;
+    display: flex; justify-content: center; align-items: center;
+    margin: 0 auto 18px;
+    border: 1px solid rgba(223,163,42,0.18);
+}
+.card-icon-wrap i { font-size: 1.9rem; color: var(--gold); }
+
+.card h2 {
+    font-family: var(--font-title);
+    color: var(--gold-dark);
+    font-size: 1.6rem;
+    margin-bottom: 18px;
+    letter-spacing: 0.05em;
+}
+
+/* ─── EVENT CARD ─── */
+.event-meta { margin: 12px 0 20px; }
+.event-month, .event-year {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--text-light);
+}
+.event-day-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin: 8px 0 6px;
+}
+.event-day-row span:not(.big-day) { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--text-mid); }
+.big-day {
+    font-family: var(--font-title);
+    font-size: 4.8rem;
+    color: var(--gold);
+    line-height: 1;
+    text-shadow: 0 2px 10px var(--gold-glow);
+}
+.venue-name { font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-top: 16px; line-height: 1.4; }
+
+.btn-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: white;
+    text-decoration: none;
+    padding: 13px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.06em;
+    margin-top: 18px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(223,163,42,0.4);
+}
+.btn-gold:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 8px 24px rgba(223,163,42,0.5); }
+.btn-gold:active { transform: scale(0.97); }
+
+/* ─── DRESS CODE ─── */
+.dress-icons { display: flex; justify-content: center; gap: 16px; margin-bottom: 6px; }
+.dress-icons .card-icon-wrap { margin: 0; width: 52px; height: 52px; }
+.dress-icons .card-icon-wrap i { font-size: 1.5rem; }
+
+.subtitle-script {
+    font-family: var(--font-title);
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin: -8px 0 20px;
+}
+.intro-text {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-mid);
+    margin-bottom: 20px;
+}
+.dress-section {
+    text-align: left;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(223,163,42,0.25);
+    margin-bottom: 18px;
+}
+.dress-section h4 {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+}
+.dress-section p { font-size: 0.86rem; line-height: 1.65; color: #666; margin-bottom: 10px; }
+.nota {
+    font-style: italic;
+    font-size: 0.82rem !important;
+    color: #999 !important;
+    background: rgba(223,163,42,0.06);
+    border-left: 2px solid var(--gold);
+    padding: 8px 12px;
+    border-radius: 0 8px 8px 0;
+}
+.nota strong { color: var(--gold-dark); }
+
+/* ─── MUSIC CARD ─── */
+.music-card { overflow: hidden; position: relative; }
+.music-bg-waves {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+    opacity: 0.05;
+    background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 2px, transparent 2px, transparent 12px);
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+}
+.music-card p { font-size: 0.88rem; color: var(--text-light); margin-bottom: 22px; }
+.play-btn {
+    width: 76px; height: 76px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border: none; border-radius: 50%;
+    color: white; font-size: 1.9rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(223,163,42,0.45);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+}
+.play-btn:hover  { transform: scale(1.08); box-shadow: 0 10px 28px rgba(223,163,42,0.6); }
+.play-btn:active { transform: scale(0.95); }
+
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 28px;
+    justify-content: center;
+    margin-top: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.music-bars.playing { opacity: 1; }
+.bar {
+    width: 4px;
+    background: var(--gold);
+    border-radius: 2px;
+    animation: barUp 0.8s ease-in-out infinite;
+}
+.bar:nth-child(1) { animation-delay: 0s; }
+.bar:nth-child(2) { animation-delay: 0.1s; }
+.bar:nth-child(3) { animation-delay: 0.2s; }
+.bar:nth-child(4) { animation-delay: 0.15s; }
+.bar:nth-child(5) { animation-delay: 0.05s; }
+@keyframes barUp {
+    0%,100% { height: 6px; }
+    50%      { height: 22px; }
+}
+
+/* ─── GALLERY ─── */
+.gallery-wrap {
+    background: var(--card-bg);
+    padding: 32px 0;
+    margin-top: 26px;
+    margin-bottom: 26px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.gallery-wrap.visible { opacity: 1; transform: translateY(0); }
+
+.gallery-header { padding: 0 22px; margin-bottom: 22px; text-align: center; }
+.gallery-header h2 {
+    font-family: var(--font-title);
+    color: var(--gold-dark);
+    font-size: 1.7rem;
+    margin: 12px 0 6px;
+}
+.gallery-header p { font-size: 0.85rem; color: var(--text-light); }
+
+.gallery-clouds {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 8;
+}
+.gc {
+    position: absolute;
+    filter: drop-shadow(0 4px 12px rgba(180,160,120,0.2));
+}
+.gc-l { top: -8px; left: 2px; width: 180px; animation: gcFloatL 6s ease-in-out infinite; }
+.gc-r { top: 55px; right: -6px; width: 140px; animation: gcFloatR 7.5s ease-in-out infinite; }
+@keyframes gcFloatL {
+    0%   { transform: translate(0,0) scale(1); }
+    30%  { transform: translate(7px,-10px) scale(1.04); }
+    65%  { transform: translate(3px,-15px) scale(1.02); }
+    100% { transform: translate(0,0) scale(1); }
+}
+@keyframes gcFloatR {
+    0%   { transform: translate(0,0) scale(1); }
+    35%  { transform: translate(-8px,-10px) scale(1.05); }
+    70%  { transform: translate(-11px,-5px) scale(1.03); }
+    100% { transform: translate(0,0) scale(1); }
+}
+
+.swiper { width: 100%; height: 380px; }
+.swiper-slide {
+    width: 30%; border-radius: 12px; overflow: hidden;
+    display: flex; justify-content: center; align-items: center;
+}
+.swiper-slide.wide { width: 62%; }
+.swiper-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+.swiper-button-next, .swiper-button-prev {
+    color: rgba(223,163,42,0.7) !important;
+    transition: color 0.2s;
+}
+.swiper-button-next:hover, .swiper-button-prev:hover { color: var(--gold) !important; }
+
+/* ─── FLIGHT PATH DECORATORS ─── */
+.flight-path-wrap {
+    position: relative;
+    height: 70px;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 4;
+    margin: 0;
+}
+.flight-path-svg {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: visible;
+}
+.fp-plane {
+    position: absolute; top: 0; left: 0;
+    font-size: 1rem;
+    opacity: 0.7;
+    offset-rotate: auto;
+    animation: fpAnim 14s linear infinite;
+}
+@keyframes fpAnim {
+    0%   { offset-distance: 2%;  opacity: 0; }
+    5%   { opacity: 0.75; }
+    90%  { opacity: 0.65; }
+    98%  { opacity: 0; }
+    100% { offset-distance: 98%; opacity: 0; }
+}
+.fp-plane-2 { animation-delay: -7s; animation-duration: 16s; }
+
+/* ─── MAP PREVIEW ─── */
+.map-preview {
+    display: block;
+    margin-top: 18px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(223,163,42,0.3);
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+.map-preview:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.map-preview-inner { position: relative; height: 110px; background: #e8e0d4; overflow: hidden; }
+.map-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.map-fallback {
+    position: absolute; inset: 0;
+    background: #ede8df;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    gap: 8px;
+}
+.map-grid {
+    position: absolute; inset: 0;
+    background-image:
+        linear-gradient(rgba(223,163,42,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(223,163,42,0.12) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+.map-grid::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 30%; right: 10%;
+    height: 3px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 2px;
+    transform: rotate(-8deg);
+    box-shadow: 0 8px 0 rgba(255,255,255,0.6), 0 -10px 0 rgba(255,255,255,0.5);
+}
+.map-pin-wrap {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.map-pin-icon { font-size: 2rem; color: var(--gold); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25)); }
+.map-pin-wrap span { font-size: 0.75rem; font-weight: 700; color: var(--text-dark); letter-spacing: 0.05em; }
+.map-label {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 11px 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: white;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+/* ─── MAP IFRAME ─── */
+.map-frame-wrap {
+    display: block;
+    text-decoration: none;
+    margin-top: 18px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 2px solid rgba(223,163,42,0.35);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    position: relative;
+    transition: box-shadow 0.2s;
+}
+.map-frame-wrap:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.map-frame-wrap iframe {
+    display: block;
+    width: 100%; height: 165px;
+    border: 0;
+    pointer-events: none;
+}
+.map-frame-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: white;
+    font-size: 0.88rem; font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.map-frame-btn:hover { opacity: 0.9; }
+
+/* ─── GIFT CARD ─── */
+.qr-wrap {
+    background: rgba(223,163,42,0.05);
+    border: 1px solid rgba(223,163,42,0.2);
+    border-radius: 18px;
+    padding: 16px;
+    display: inline-block;
+    margin: 16px auto;
+}
+.qr-wrap img { width: 150px; display: block; }
+.bank-info { margin-top: 12px; }
+.bank-info p { font-size: 0.9rem; color: var(--text-dark); margin: 6px 0; line-height: 1.5; }
+.bank-info strong { color: var(--gold-dark); font-weight: 700; }
+
+/* ─── RSVP CARD ─── */
+.rsvp-card { background: linear-gradient(145deg, #fff 60%, rgba(223,163,42,0.06)); }
+.rsvp-card p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 24px; }
+.btn-gold.large { padding: 16px 44px; font-size: 1rem; }
+
+/* ─── FLOATING PLAYER ─── */
+.floating-btn {
+    position: fixed;
+    bottom: 28px;
+    right: max(18px, calc(50% - 197px));
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: white;
+    border: none; border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45), 0 0 0 3px rgba(223,163,42,0.25);
+    z-index: 9999;
+    display: flex; justify-content: center; align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.floating-btn:hover  { transform: scale(1.1); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+.floating-btn:active { transform: scale(0.93); }
+
+/* ─── FINAL SPACING ─── */
+.end-spacer { height: 70px; }
+
+/* ─── DIVIDER ─── */
+.gold-divider {
+    display: flex; align-items: center; gap: 10px;
+    padding: 0 22px; margin: 2px 0 20px;
+}
+.gold-divider::before, .gold-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(223,163,42,0.4), transparent);
+}
+.gold-divider i { color: var(--gold); font-size: 0.75rem; opacity: 0.7; }
+
+/* ─── SUBTLE SECTION LABEL ─── */
+.section-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 6px;
+    display: block;
+}
+    </style>
 </head>
 <body>
 
-    <div class="mobile-app-container">
-        <div class="fixed-background"></div>
+<div class="app">
+    <div class="bg-layer" id="bgLayer"></div>
 
-        <div class="main-content">
-            
-            <section class="hero-section" id="hero-normal">
-                <h1 class="couple-names-hero">Julian & Kelly</h1>
+    <!-- Floating petals -->
+    <div class="petals-canvas" id="petals"></div>
 
-                <div style="margin-top: 10px;">
-                    <h2 style="color: white; font-size: 1.8rem; font-style: italic; font-weight: bold; margin: 0;">¡Nuestra Boda!</h2>
-                    <p class="tagline-italic" style="color: white; font-style: italic; font-size: 1.05rem; margin-top: 5px; opacity: 0.95;">Te elijo hoy y por el resto de mi vida.</p>
-                </div>
+    <div class="scroll-wrap" id="scrollWrap">
 
-                <div class="welcome-box">
-                    <p>Hola,</p>
-                    <h2 id="nombre-invitado" style="color: var(--gold-color); font-family: var(--font-title); font-size: 2.2rem; margin: 10px 0;">Familia y Amigos</h2>
-                    <p>Nos encantaría contar con tu presencia en esta celebración.</p>
-                </div>
-
-                <div class="scroll-down-indicator">
-                    <p class="play-scroll-text" style="font-size: 0.85rem; font-style: italic; opacity: 0.9; margin-bottom: 8px;">Dale play y desliza hacia abajo</p>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </section>
-
-            <section class="hero-section" id="hero-padrinos" style="display: none;">
-                <h1 class="couple-names-hero">Julian & Kelly</h1>
-                
-                <h2 style="color: var(--gold-color); font-family: var(--font-title); font-size: 2rem; margin: 10px 0 0 0; line-height: 1.2; text-shadow: 0 2px 5px rgba(0,0,0,0.8);">Olga Guevara <br> y Cesar Aristizabal</h2>
-                
-                <div class="padrinos-text-container">
-                    <p>Saber que estarán a nuestro lado en el altar es el mejor regalo que podíamos recibir. 🥂</p>
-                    <p>No son solo testigos,<br>son parte de nuestra historia. 📖✨</p>
-                    <p>Queremos que sean los primeros en agendar oficialmente el día en que uniremos nuestras vidas: 30 de octubre de 2026. 🗓️✈️</p>
-                    <p>¡Vayan preparando maletas y el corazón, porque sin ustedes no hay fiesta! 🤍💍</p>
-                </div>
-
-                <div class="scroll-down-indicator">
-                    <p class="play-scroll-text" style="font-size: 0.85rem; font-style: italic; opacity: 0.9; margin-bottom: 8px;">Desliza hacia abajo</p>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-
-            </section>
-
-            <div class="countdown-white-zone">
-                <div class="wave-top">
-                    <svg viewBox="0 0 500 50" preserveAspectRatio="none">
-                        <path d="M0,15 C150,45 350,45 450,25 C480,20 495,15 500,10 L500,50 L0,50 Z"></path>
-                    </svg>
-                </div>
-
-                <div class="clouds-container">
-                    <i class="fas fa-cloud cloud cloud-left"></i>
-                    <i class="fas fa-cloud cloud cloud-right"></i>
-                </div>
-
-                <section class="countdown-section">
-                    <div class="countdown-wrapper">
-                        
-                        <div class="orbit-tilt-container">
-                            <svg class="orbit-svg" viewBox="-180 -80 360 160">
-                                <path d="M -175, 0 A 175,80 0 1,1 175,0 A 175,80 0 1,1 -175,0" fill="none" stroke="rgba(212, 175, 55, 0.5)" stroke-width="2" stroke-dasharray="8,8" />
-                            </svg>
-                            
-                            <div class="heart-mover">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                        </div>
-
-                        <div class="planet-circle">
-                            <div class="world-map-mask"></div>
-                            
-                            <div class="countdown-content">
-                                <h3>Falta</h3>
-                                <div id="countdown" class="timer-grid">
-                                    <div class="time-box"><span id="dias">00</span><p>DÍAS</p></div>
-                                    <div class="separator">:</div>
-                                    <div class="time-box"><span id="horas">00</span><p>HS</p></div>
-                                    <div class="separator">:</div>
-                                    <div class="time-box"><span id="minutos">00</span><p>MIN</p></div>
-                                    <div class="separator">:</div>
-                                    <div class="time-box"><span id="segundos">00</span><p>SEG</p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="wave-bottom">
-                    <svg viewBox="0 0 500 70" preserveAspectRatio="none">
-                        <path d="M0,70 C250,-30 500,70 500,70 L500,0 L0,0 Z"></path>
-                    </svg>
-                </div>
+        <!-- ─ HERO NORMAL ─ -->
+        <section class="hero" id="heroNormal">
+            <div class="hero-top">
+                <p class="hero-monogram">Julian &amp; Kelly · 2026</p>
+                <h1 class="hero-names">Julian &amp; Kelly</h1>
+                <div class="hero-divider"><i class="fas fa-heart"></i></div>
+                <h2 class="hero-sub">¡Nuestra Boda!</h2>
+                <p class="hero-tagline">Te elijo hoy y por el resto de mi vida.</p>
             </div>
 
-            <div class="cards-container">
-                <section class="card event-card">
-                    <i class="fas fa-rings-wedding card-icon gold-icon"></i>
-                    <h2>CELEBRACIÓN</h2>
-                    <div class="event-details">
-                        <p class="event-month">OCTUBRE</p>
-                        <div class="event-date-row">
-                            <span>VIERNES</span>
-                            <span class="big-day">30</span>
-                            <span>5:00 PM</span>
+            <div class="welcome-box">
+                <span class="guest-name" id="guestName">Familia y Amigos</span>
+                <p>Nos encantaría contar con tu presencia en esta celebración.</p>
+            </div>
+
+            <div class="scroll-hint">
+                <p>Dale play y desliza hacia abajo</p>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- ─ HERO PADRINOS ─ -->
+        <section class="hero hero-padrinos" id="heroPadrinos">
+            <div class="hero-top">
+                <p class="hero-monogram">Julian &amp; Kelly · 2026</p>
+                <h1 class="hero-names">Julian &amp; Kelly</h1>
+                <h2 class="padrinos-names">Olga Guevara<br>y Cesar Aristizabal</h2>
+            </div>
+
+            <div class="padrinos-msgs">
+                <p>Saber que estarán a nuestro lado en el altar es el mejor regalo que podíamos recibir. 🥂</p>
+                <p>No son solo testigos,<br>son parte de nuestra historia. 📖✨</p>
+                <p>Queremos que sean los primeros en agendar el día en que uniremos nuestras vidas: <strong style="color:var(--gold-light)">30 de octubre de 2026.</strong> 🗓️✈️</p>
+                <p>¡Vayan preparando maletas y el corazón, porque sin ustedes no hay fiesta! 🤍💍</p>
+            </div>
+
+            <div class="scroll-hint">
+                <p>Desliza hacia abajo</p>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- ─ COUNTDOWN ─ -->
+        <div class="white-zone">
+            <div class="wave wave-top">
+                <svg viewBox="0 0 500 50" preserveAspectRatio="none">
+                    <path d="M0,18 C120,48 320,48 450,26 C480,20 494,14 500,9 L500,50 L0,50 Z"/>
+                </svg>
+            </div>
+
+            <div class="clouds">
+                <!-- Left cloud -->
+                <svg class="cloud-svg cloud-svg-l" viewBox="0 0 220 90" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="60" cy="65" rx="55" ry="28"/>
+                    <ellipse cx="100" cy="55" rx="48" ry="30"/>
+                    <ellipse cx="145" cy="60" rx="50" ry="26"/>
+                    <ellipse cx="75" cy="46" rx="38" ry="28"/>
+                    <ellipse cx="118" cy="40" rx="36" ry="26"/>
+                    <ellipse cx="90" cy="34" rx="28" ry="22"/>
+                </svg>
+                <!-- Right cloud -->
+                <svg class="cloud-svg cloud-svg-r" viewBox="0 0 240 95" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="70" cy="68" rx="62" ry="28"/>
+                    <ellipse cx="118" cy="57" rx="55" ry="33"/>
+                    <ellipse cx="168" cy="63" rx="55" ry="26"/>
+                    <ellipse cx="88" cy="47" rx="42" ry="30"/>
+                    <ellipse cx="135" cy="40" rx="40" ry="28"/>
+                    <ellipse cx="108" cy="32" rx="30" ry="24"/>
+                </svg>
+            </div>
+
+            <section class="countdown-section">
+                <div class="orbit-wrap">
+                    <div class="orbit-tilt">
+                        <svg class="orbit-svg" viewBox="-180 -180 360 360" preserveAspectRatio="none" fill="none">
+                            <ellipse cx="0" cy="0" rx="175" ry="80"
+                                     stroke="rgba(223,163,42,0.55)" stroke-width="2" stroke-dasharray="8,7"/>
+                        </svg>
+                        <div class="heart-mover"><i class="fas fa-heart"></i></div>
+                    </div>
+
+                    <div class="planet">
+                        <div class="world-map"></div>
+                        <div class="countdown-inner">
+                            <h3>Falta</h3>
+                            <div class="timer" id="countdown">
+                                <div class="t-box"><span id="dias">00</span><p>DÍAS</p></div>
+                                <span class="t-sep">:</span>
+                                <div class="t-box"><span id="horas">00</span><p>HS</p></div>
+                                <span class="t-sep">:</span>
+                                <div class="t-box"><span id="minutos">00</span><p>MIN</p></div>
+                                <span class="t-sep">:</span>
+                                <div class="t-box"><span id="segundos">00</span><p>SEG</p></div>
+                            </div>
                         </div>
-                        <p class="event-year">2026</p>
                     </div>
-                    <p class="location-name">Centro de Eventos Campestre Inti Raimi</p>
-                    <a href="https://maps.app.goo.gl/irXRfZBqRFVXtk6Q7?g_st=iw" class="btn-gold" target="_blank">¿Cómo llegar?</a>
-                </section>
-                
-                <section class="card dress-code-card">
-                    <div class="dress-code-icons">
-                        <i class="fas fa-person-dress card-icon gold-icon"></i>
-                        <i class="fas fa-user-tie card-icon gold-icon"></i>
-                    </div>
-                    
-                    <h2>DRESS CODE</h2>
-                    <h3 class="subtitle-gold">Elegante Tropical</h3>
-                    
-                    <p class="intro-dress">¡Queremos que disfruten con nosotros de principio a fin! Por eso, hemos elegido un estilo fresco y acorde a la ocasión, ideal para el clima de nuestra amada Cali.</p>
-
-                    <div class="dress-section">
-                        <h4>MUJERES</h4>
-                        <p>Nuestra sugerencia son vestidos en el estilo que más te guste. Lo importante es que te sientas linda, acorde a la celebración y, sobre todo, cómoda para disfrutar.</p>
-                        <p class="nota-dress"><strong>Nota cariñosa:</strong> Reservamos el blanco y los tonos muy claros exclusivamente para la novia.</p>
-                    </div>
-
-                    <div class="dress-section">
-                        <h4>HOMBRES</h4>
-                        <p>Sugerimos un atuendo fresco y elegante, como guayabera o camisa de vestir con pantalón. La idea es que te sientas cómodo, bien presentado y en armonía con el ambiente de la celebración.</p>
-                        <p class="nota-dress"><strong>Dato clave:</strong> El uso de saco o corbata es totalmente opcional, queremos que se sientan cómodos para celebrar.</p>
-                    </div>
-                </section>
-
-                <section class="card music-card">
-                    <h2>Música</h2>
-                    <p>Dale play a nuestra historia</p>
-                    <div class="music-player-container">
-                        <audio id="musica" loop>
-                            <source src="cancion.mp3" type="audio/mpeg">
-                        </audio>
-                        <button onclick="toggleMusic()" class="play-btn-large">
-                            <i class="fas fa-play"></i>
-                        </button>
-                    </div>
-                </section>
-            </div> 
-
-            <section class="gallery-section edge-to-edge-section relative-position">
-                <div class="gallery-clouds-container">
-                    <i class="fas fa-cloud cloud-gallery cloud-gallery-left"></i>
-                    <i class="fas fa-cloud cloud-gallery cloud-gallery-right"></i>
                 </div>
-                <div class="gallery-titles-container">
-                    <i class="fas fa-camera-retro card-icon gold-icon"></i>
-                    <h2 style="font-family: var(--font-title); color: var(--gold-color); font-size: 1.8rem; margin: 10px 0;">Nuestros Viajes</h2>
-                    <p>Compartiendo el mundo juntos</p>
+            </section>
+
+            <div class="wave wave-bottom">
+                <svg viewBox="0 0 500 60" preserveAspectRatio="none">
+                    <path d="M0,60 C200,-20 400,60 500,60 L500,0 L0,0 Z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- ─ FLIGHT PATH 1 (between countdown and cards) ─ -->
+        <div class="flight-path-wrap">
+            <svg class="flight-path-svg" viewBox="0 0 390 70" preserveAspectRatio="none">
+                <path id="fp1" d="M 5,55 Q 80,15 160,35 Q 250,58 340,20 Q 365,10 385,25"
+                      fill="none" stroke="rgba(223,163,42,0.28)" stroke-width="1.5" stroke-dasharray="6,6"/>
+            </svg>
+            <div class="fp-plane" style="offset-path: path('M 5,55 Q 80,15 160,35 Q 250,58 340,20 Q 365,10 385,25')">✈</div>
+            <div class="fp-plane fp-plane-2" style="offset-path: path('M 5,55 Q 80,15 160,35 Q 250,58 340,20 Q 365,10 385,25')">✈</div>
+        </div>
+
+        <!-- ─ CARDS ─ -->
+        <div class="cards">
+
+            <!-- Event -->
+            <section class="card" data-card>
+                <div class="card-icon-wrap">
+                    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="17" r="7" stroke="#DFA32A" stroke-width="2.5" fill="none"/>
+                        <circle cx="23" cy="17" r="7" stroke="#DFA32A" stroke-width="2.5" fill="none"/>
+                        <path d="M11 10 Q17 6 23 10" stroke="#DFA32A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                        <path d="M11 24 Q17 28 23 24" stroke="#DFA32A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                    </svg>
                 </div>
-                    
-                <div class="swiper mySwiper full-width-gallery">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto1.jpeg" alt="Viaje 1"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto2.jpeg" alt="Viaje 2"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto3.jpeg" alt="Viaje 3"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto4.jpeg" alt="Viaje 4"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto5.jpeg" alt="Viaje 5"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto6.jpeg" alt="Viaje 6"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto7.jpeg" alt="Viaje 7"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto8.jpeg" alt="Viaje 8"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto9.jpeg" alt="Viaje 9"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto10.jpeg" alt="Viaje 10"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto11.jpeg" alt="Viaje 11"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto12.jpeg" alt="Viaje 12"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto13.jpeg" alt="Viaje 13"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto14.jpeg" alt="Viaje 14"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto15.jpeg" alt="Viaje 15"></div>
-                        <div class="swiper-slide"><img src="Fotos/foto16.jpeg" alt="Viaje 16"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto17.jpeg" alt="Viaje 17"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto18.jpeg" alt="Viaje 18"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto19.jpeg" alt="Viaje 19"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto20.jpeg" alt="Viaje 20"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto21.jpeg" alt="Viaje 21"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto22.jpeg" alt="Viaje 22"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto23.jpeg" alt="Viaje 23"></div>
-                        <div class="swiper-slide wide-slide"><img src="Fotos/foto24.jpeg" alt="Viaje 24"></div>
+                <span class="section-eyebrow">La celebración</span>
+                <h2>CELEBRACIÓN</h2>
+                <div class="event-meta">
+                    <p class="event-month">OCTUBRE</p>
+                    <div class="event-day-row">
+                        <span>VIERNES</span>
+                        <span class="big-day">30</span>
+                        <span>4:00 PM</span>
                     </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                    <p class="event-year">2026</p>
                 </div>
-            </section> 
+                <div class="gold-divider"><i class="fas fa-map-pin"></i></div>
+                <p class="venue-name">Centro de Eventos Campestre<br>Inti Raimi</p>
+                <a href="https://maps.app.goo.gl/irXRfZBqRFVXtk6Q7?g_st=iw" class="map-frame-wrap" target="_blank">
+                    <iframe src="https://maps.google.com/maps?q=Centro+de+Eventos+Campestre+Inti+Raimi+Cali+Colombia&t=&z=15&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa venue"></iframe>
+                    <span class="map-frame-btn"><i class="fas fa-location-arrow"></i> ¿Cómo llegar?</span>
+                </a>
+            </section>
 
-            <div class="cards-container" style="margin-top: 0;"> 
-                
-                <section class="card gift-card">
-                    <i class="fas fa-gift card-icon gold-icon"></i>
-                    <h2>UN DETALLE ESPECIAL</h2>
+            <!-- Dress Code -->
+            <section class="card" data-card>
+                <div class="dress-icons">
+                    <div class="card-icon-wrap"><i class="fas fa-person-dress"></i></div>
+                    <div class="card-icon-wrap"><i class="fas fa-user-tie"></i></div>
+                </div>
+                <h2>DRESS CODE</h2>
+                <p class="subtitle-script">Elegante Tropical</p>
+                <p class="intro-text">¡Queremos que disfruten con nosotros de principio a fin! Por eso elegimos un estilo fresco y acorde a la ocasión, ideal para el clima de nuestra amada Cali.</p>
+                <div class="dress-section">
+                    <h4>MUJERES</h4>
+                    <p>Nuestra sugerencia son vestidos en el estilo que más te guste. Lo importante es que te sientas linda, acorde a la celebración y, sobre todo, cómoda para disfrutar.</p>
+                    <p class="nota"><strong>Nota cariñosa:</strong> Reservamos el blanco y los tonos muy claros exclusivamente para la novia.</p>
+                </div>
+                <div class="dress-section">
+                    <h4>HOMBRES</h4>
+                    <p>Sugerimos un atuendo fresco y elegante, como guayabera o camisa de vestir con pantalón. La idea es que te sientas cómodo y bien presentado.</p>
+                    <p class="nota"><strong>Dato clave:</strong> El uso de saco o corbata es totalmente opcional — queremos que se sientan libres para celebrar.</p>
+                </div>
+            </section>
 
-                    <p class="intro-dress">Lo más importante para nosotros es compartir este día con ustedes.</p>
-                    <p class="intro-dress">Si desean tener un detalle, en el lugar de la celebración encontrarán una cajita donde podrán dejar su sobre; también podrán hacerlo a través del siguiente código QR o llaves de Bre-B:</p>
+            <!-- Music -->
+            <section class="card music-card" data-card>
+                <div class="music-bg-waves"></div>
+                <div class="card-icon-wrap">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h2>Música</h2>
+                <p>Dale play a nuestra historia</p>
+                <audio id="audio" loop>
+                    <source src="cancion.mp3" type="audio/mpeg">
+                </audio>
+                <button class="play-btn" id="playBtn" onclick="toggleMusic()">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </button>
+                <div class="music-bars" id="bars">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </section>
 
-                    <div class="qr-container">
-                        <img src="qr.png" alt="Código QR para aportes" class="qr-image">
-                    </div>
+        </div>
 
-                    <div class="bank-details">
-                        <p><strong>Bre-B:</strong> 3044448800</p>
-                        <p><strong>Llave:</strong> bodajuliykelly@gmail.com</p>
-                    </div>
-                </section>
+        <!-- ─ FLIGHT PATH 2 (between cards and gallery) ─ -->
+        <div class="flight-path-wrap">
+            <svg class="flight-path-svg" viewBox="0 0 390 70" preserveAspectRatio="none">
+                <path id="fp2" d="M 5,20 Q 100,55 200,30 Q 290,10 385,45"
+                      fill="none" stroke="rgba(180,140,60,0.3)" stroke-width="1.5" stroke-dasharray="6,6"/>
+            </svg>
+            <div class="fp-plane" style="offset-path: path('M 5,20 Q 100,55 200,30 Q 290,10 385,45'); animation-duration:15s;">✈</div>
+        </div>
 
-                <section class="card rsvp-card">
-                    <h2>Confirmar Asistencia</h2>
-                    <p>¡Esperamos contar contigo!</p>
-                    <a href="https://forms.gle/BwPHXXrhCvbDQRBY6" id="btn-confirmar" class="btn-gold btn-large" target="_blank">Confirmar aquí</a>
-                </section>
-                
-            </div> 
-            
-            <div style="height: 50px;"></div>
+        <!-- ─ GALLERY ─ -->
+        <section class="gallery-wrap" id="gallery">
+            <div class="gallery-clouds">
+                <!-- Gold cloud left -->
+                <svg class="gc gc-l" viewBox="0 0 200 80" fill="#f0e6cc" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="55" cy="58" rx="50" ry="24"/>
+                    <ellipse cx="92" cy="48" rx="44" ry="28"/>
+                    <ellipse cx="135" cy="54" rx="46" ry="22"/>
+                    <ellipse cx="70" cy="38" rx="34" ry="24"/>
+                    <ellipse cx="108" cy="33" rx="32" ry="22"/>
+                    <ellipse cx="85" cy="27" rx="24" ry="18"/>
+                </svg>
+                <!-- Gold cloud right -->
+                <svg class="gc gc-r" viewBox="0 0 160 70" fill="#f0e6cc" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="45" cy="50" rx="40" ry="20"/>
+                    <ellipse cx="78" cy="42" rx="38" ry="24"/>
+                    <ellipse cx="115" cy="47" rx="38" ry="18"/>
+                    <ellipse cx="60" cy="33" rx="28" ry="20"/>
+                    <ellipse cx="92" cy="28" rx="26" ry="18"/>
+                </svg>
+            </div>
+            <div class="gallery-header">
+                <div class="card-icon-wrap" style="margin:0 auto 14px;">
+                    <i class="fas fa-camera-retro" style="font-size:1.9rem;color:var(--gold)"></i>
+                </div>
+                <h2>Nuestros Viajes</h2>
+                <p>Compartiendo el mundo juntos</p>
+            </div>
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide wide"><img src="Fotos/foto1.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto2.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto3.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto4.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto5.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto6.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto7.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto8.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto9.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto10.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto11.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto12.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto13.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto14.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto15.jpeg" alt=""></div>
+                    <div class="swiper-slide"><img src="Fotos/foto16.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto17.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto18.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto19.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto20.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto21.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto22.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto23.jpeg" alt=""></div>
+                    <div class="swiper-slide wide"><img src="Fotos/foto24.jpeg" alt=""></div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
 
-        </div> 
-        
-        <button id="floating-player" class="floating-player" onclick="toggleMusic()">
-            <i class="fas fa-play" id="floating-icon"></i>
-        </button>
+        <!-- ─ BOTTOM CARDS ─ -->
+        <div class="cards" style="margin-top:0; padding-bottom: 20px;">
 
-    </div> 
-    
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="script.js"></script>
+            <!-- Gift -->
+            <section class="card" data-card>
+                <div class="card-icon-wrap">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h2>UN DETALLE ESPECIAL</h2>
+                <p class="intro-text">Lo más importante para nosotros es compartir este día con ustedes.<br>Si desean tener un detalle, en el lugar encontrarán una cajita, o pueden hacerlo vía código QR o Bre-B:</p>
+                <div class="qr-wrap">
+                    <img src="qr.png" alt="QR">
+                </div>
+                <div class="bank-info">
+                    <p><strong>Bre-B:</strong> 3044448800</p>
+                    <p><strong>Llave:</strong> bodajuliykelly@gmail.com</p>
+                </div>
+            </section>
+
+            <!-- RSVP -->
+            <section class="card rsvp-card" data-card>
+                <div class="card-icon-wrap">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h2>Confirmar Asistencia</h2>
+                <p>¡Esperamos contar contigo en este día tan especial!</p>
+                <a href="https://forms.gle/BwPHXXrhCvbDQRBY6" class="btn-gold large" target="_blank">
+                    <i class="fas fa-check"></i> Confirmar aquí
+                </a>
+            </section>
+
+        </div>
+
+        <div class="end-spacer"></div>
+    </div><!-- /scroll-wrap -->
+
+    <!-- Floating music btn -->
+    <button class="floating-btn" id="floatingBtn" onclick="toggleMusic()">
+        <i class="fas fa-play" id="floatingIcon"></i>
+    </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+/* ── URL PARAMS ── */
+const params = new URLSearchParams(location.search);
+const guest = params.get('invitado');
+const tipo  = params.get('tipo');
+
+if (guest) document.getElementById('guestName').textContent = guest;
+
+if (tipo === 'padrino' || tipo === 'padrinos') {
+    document.getElementById('heroNormal').style.display  = 'none';
+    document.getElementById('heroPadrinos').style.display = 'flex';
+}
+
+/* ── PETALS ── */
+(function spawnPetals() {
+    const canvas  = document.getElementById('petals');
+    const symbols = ['✦','✧','·','◦','♡'];
+    for (let i = 0; i < 18; i++) {
+        const el = document.createElement('div');
+        el.className = 'petal';
+        el.textContent = symbols[i % symbols.length];
+        el.style.cssText = `
+            left: ${Math.random()*100}%;
+            font-size: ${0.55 + Math.random()*0.65}rem;
+            animation-duration: ${9 + Math.random()*10}s;
+            animation-delay: ${-Math.random()*12}s;
+            opacity: 0;
+        `;
+        canvas.appendChild(el);
+    }
+})();
+
+/* ── COUNTDOWN ── */
+const weddingDate = new Date(2026, 9, 30, 16, 0, 0).getTime();
+function tick() {
+    const diff = weddingDate - Date.now();
+    if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = '<h3 style="color:var(--gold-dark)">¡Llegó el gran día! 🎊</h3>';
+        return;
+    }
+    document.getElementById('dias').textContent     = String(Math.floor(diff / 86400000)).padStart(2,'0');
+    document.getElementById('horas').textContent    = String(Math.floor((diff % 86400000)/3600000)).padStart(2,'0');
+    document.getElementById('minutos').textContent  = String(Math.floor((diff % 3600000)/60000)).padStart(2,'0');
+    document.getElementById('segundos').textContent = String(Math.floor((diff % 60000)/1000)).padStart(2,'0');
+}
+tick(); setInterval(tick, 1000);
+
+/* ── MUSIC ── */
+const audio     = document.getElementById('audio');
+const playIcon  = document.getElementById('playIcon');
+const floatIcon = document.getElementById('floatingIcon');
+const bars      = document.getElementById('bars');
+
+function setPlaying(p) {
+    const cls = p ? ['fa-pause','fa-play'] : ['fa-play','fa-pause'];
+    [playIcon, floatIcon].forEach(i => { i.classList.replace(cls[1], cls[0]); });
+    bars.classList.toggle('playing', p);
+}
+function toggleMusic() {
+    if (audio.paused) { audio.play().then(() => setPlaying(true)).catch(()=>{}); }
+    else              { audio.pause(); setPlaying(false); }
+}
+
+/* autoplay attempt */
+document.addEventListener('DOMContentLoaded', () => {
+    audio.play().then(() => setPlaying(true)).catch(()=>{});
+});
+/* first-touch fallback */
+document.body.addEventListener('click', function ft() {
+    if (audio.paused) audio.play().then(() => setPlaying(true)).catch(()=>{});
+    document.body.removeEventListener('click', ft);
+}, { once: true });
+
+/* ── SWIPER ── */
+new Swiper('.mySwiper', {
+    loop: true,
+    centeredSlides: true,
+    slidesPerView: 'auto',
+    spaceBetween: 10,
+    autoplay: { delay: 4500, disableOnInteraction: false },
+    speed: 900,
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    grabCursor: true,
+});
+
+/* ── HEART ORBIT (time-based, matches original 10s CSS animation) ── */
+(function orbitHeart() {
+    const heart = document.querySelector('.heart-mover');
+    const RX = 175, RY = 80;   // must match SVG path radii
+    const PERIOD = 10000;       // ms per full revolution (same as original CSS)
+
+    function frame(ts) {
+        const angle = ((ts % PERIOD) / PERIOD) * 2 * Math.PI;
+        const x = RX * Math.cos(angle);
+        const y = RY * Math.sin(angle);
+        // Behind the planet = top arc (y negative) → hide
+        heart.style.opacity   = y < -10 ? '0' : '1';
+        heart.style.transform = `translate(${x}px, ${y}px)`;
+        requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+})();
+
+/* ── SCROLL-IN ANIMATIONS ── */
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 90);
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('[data-card], .gallery-wrap').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
